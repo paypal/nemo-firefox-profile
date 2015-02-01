@@ -37,6 +37,22 @@ You can put your firefox preferences as `firefox_preferences` property under `ne
   }
 ```
 
+You can use an existing firefox profile just by passing the path to the folder containing your profile.
+
+```
+  "nemoData": {
+                "autoBaseDir": "<%=loopmocha.basedir%>", "targetBrowser": nconf.get("TARGET_BROWSER") || "firefox",
+                "firefoxDirectory": "/path/to/profile's folder",
+                "firefox_preferences":{
+                    "browser.download.folderList": 2,
+                    "browser.download.dir": "/Users/nilesh",
+                    "browser.helperApps.neverAsk.saveToDisk": "text/csv"
+                },
+                "serverCaps": {
+                }
+  }
+```
+
 Once the plugin is configured correctly, nemo-firefox-profile would update "serverCaps" as below
 
 ```

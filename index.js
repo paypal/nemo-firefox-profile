@@ -18,7 +18,11 @@
 var FirefoxProfile = require("firefox-profile");
 module.exports = {
     "setup": function (config, result, callback) {
-        var myProfile = new FirefoxProfile();
+		var myProfile; 
+		if(result.props.firefoxDirectory === undefined)
+			 myProfile = new FirefoxProfile();
+		else
+			 myProfile = new FirefoxProfile(result.props.firefoxDirectory);
         var firefox_preferences = result.props.firefox_preferences;
         Object.keys(firefox_preferences).forEach(function (key) {
             myProfile.setPreference(key, firefox_preferences[key]);
