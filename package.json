@@ -1,6 +1,6 @@
 {
   "name": "nemo-firefox-profile",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Adds custom firefox preferences to nemo firefox driver instance",
   "main": "index.js",
   "dependencies": {
