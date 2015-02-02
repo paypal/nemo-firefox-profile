@@ -19,7 +19,7 @@ var FirefoxProfile = require("firefox-profile");
 module.exports = {
     "setup": function (config, result, callback) {
         var myProfile;
-        if (result.props.firefoxDirectory === undefined) {
+        if (!result.props.firefoxDirectory) {
             myProfile = new FirefoxProfile();
         }
         else {
