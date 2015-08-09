@@ -17,23 +17,29 @@
 "use strict";
 var FirefoxProfile = require("firefox-profile");
 module.exports = {
-    "setup": function (config, result, callback) {
-        var myProfile;
-        if (!result.props.firefoxDirectory) {
-            myProfile = new FirefoxProfile();
-        }
-        else {
-            myProfile = new FirefoxProfile(result.props.firefoxDirectory);
-        }
-        var firefox_preferences = result.props.firefox_preferences;
-        if (result.props.firefox_preferences) {
-            Object.keys(firefox_preferences).forEach(function (key) {
-                myProfile.setPreference(key, firefox_preferences[key]);
-            });
-        }
-        myProfile.encoded(function (encodedProfile) {
-            result.props.serverCaps.firefox_profile = JSON.stringify(encodedProfile);
-            callback(null, config, result);
-        });
+
+  "setup": function (nemo, callback) {
+    var firefoxProfileDirectory = nemo._config.get('driver:firefoxProfileDirectory'),
+      firefoxPreferences = nemo._config.get('driver:firefoxPreferences') ;
+
+    if (!firefoxProfileDirectory && !firefoxPreferences) {
+      throw new Error('You must provide firefoxDirectory or firefox preferences, please check README');
     }
+    var myProfile;
+    if (firefoxProfileDirectory) {
+      myProfile = new FirefoxProfile(firefoxProfileDirectory);
+    }
+    else {
+      myProfile = new FirefoxProfile();
+    }
+    if (firefoxPreferences) {
+      Object.keys(firefoxPreferences).forEach(function (key) {
+        myProfile.setPreference(key, firefoxPreferences[key]);
+      });
+    }
+    myProfile.encoded(function (encodedProfile) {
+      nemo._config.set('driver:serverCaps:firefox_profile', JSON.stringify(encodedProfile));
+      callback(null);
+    });
+  }
 };
