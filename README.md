@@ -28,7 +28,7 @@ before nemo initializes the driver
 
 ## Plugin Setup
 
-You can put your firefox preferences as `firefoxPreferences` property under `driver` property in `config/config.json` like below,
+You can put your firefox preferences in nemo `config/config.json` as `firefoxPreferences` under `driver` property like below,
 
 ```javascript
  "driver": {
@@ -73,7 +73,7 @@ npm install
 DEBUG=nemo* node example/nemoFirefoxProfileExample.js
 ```
 
-You will see a bunch of nemo logs and a firefox launched with _blank_ window. In the address bar you can type `about:config` and check whether your custom firefox preferences were applied or not. Accept firefox risk page and in the address bar type `browser.download.dir`. You will see the value to be `/Users/nemoUser` and status to be `user set`. Browser will close automatically after 60s (timeout set that users could test firefox preferences).
+You will see a bunch of nemo logs and a firefox launched with a _blank_ window. In the address bar you can type `about:config` and check whether your custom firefox preferences were applied or not. Accept firefox risk page and in the address bar type `browser.download.dir`. You will see the value to be `/Users/nemoUser` and status to be `user set`. That's it, you were able to configure `nemo-firefox-profile` correctly and able to successfully set custom firefox preferences. Browser will close automatically after 60s (timeout set that users could test firefox preferences).
 
 [1]:https://github.com/saadtazi/firefox-profile-js "firefox-profile-js"
 [2]:https://github.com/paypal/nemo "Nemo automation framework"
