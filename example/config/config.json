@@ -1,0 +1,16 @@
+{
+  "driver": {
+    "browser" : "firefox",
+    "firefoxPreferences":{
+      "browser.download.folderList": 2,
+      "browser.download.dir": "/Users/nemoUser",
+      "browser.helperApps.neverAsk.saveToDisk": "text/csv"
+    }
+  },
+  "plugins" : {
+    "firefox-profile" : {
+      "module": "path:../",
+      "priority" : 99
+    }
+  }
+}
