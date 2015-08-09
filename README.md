@@ -3,18 +3,20 @@
 
 Firefox profile for [Nemo automation framework][2]. `nemo-firefox-profile` is a nemo-plugin written using [firefox-profile-js][1].
 
+
 ## Nemo Installation
 
 Install nemo and nemo-firefox-profile
 
- `npm install nemo --save-dev`
- `npm install nemo-firefox-profile --save-dev`
-
+```bash
+ npm install nemo --save-dev
+ npm install nemo-firefox-profile --save-dev
+```
 
 ## nemo-firefox-profile Registration
 
-Add nemo-firefox-profile to your nemo config under `plugins` section in `config/config.json` file like below. Make sure `priority<100` to allow plugin to register
-before nemo initializes the driver
+Add `nemo-firefox-profile` to your `nemo` config under `plugins` section in `config/config.json` file like below. Make sure `priority<100` to allow plugin to register
+before nemo initializes  `selenium-webdriver`
 
 ```javascript
 "plugins" : {
@@ -74,6 +76,9 @@ DEBUG=nemo* node example/nemoFirefoxProfileExample.js
 ```
 
 You will see a bunch of nemo logs and a firefox launched with a _blank_ window. In the address bar you can type `about:config` and check whether your custom firefox preferences were applied or not. Accept firefox risk page and in the address bar type `browser.download.dir`. You will see the value to be `/Users/nemoUser` and status to be `user set`. That's it, you were able to configure `nemo-firefox-profile` correctly and able to successfully set custom firefox preferences. Browser will close automatically after 60s (timeout set that users could test firefox preferences).
+
+## Acknowledgement
+Thank you [@saadtazi](https://github.com/saadtazi) for your work on [firefox-profile-js][1]
 
 [1]:https://github.com/saadtazi/firefox-profile-js "firefox-profile-js"
 [2]:https://github.com/paypal/nemo "Nemo automation framework"
