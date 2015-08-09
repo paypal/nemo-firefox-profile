@@ -5,61 +5,75 @@ Firefox profile for [Nemo automation framework][2]. `nemo-firefox-profile` is a 
 
 ## Nemo Installation
 
-1. Please install nemo to your project as described here: https://github.com/paypal/nemo/blob/master/README.md
-2. Add this plugin to your package.json dev dependencies ("nemo-firefox-profile": "~0.1.1")
-3. npm install
+Install nemo and nemo-firefox-profile
+
+ `npm install nemo --save-dev`
+ `npm install nemo-firefox-profile --save-dev`
+
 
 ## nemo-firefox-profile Registration
 
-Add nemo-firefox-profile to your config/nemo-plugins.json file. Make sure `priority<100` to allow plugin to register
+Add nemo-firefox-profile to your nemo config under `plugins` section in `config/config.json` file like below. Make sure `priority<100` to allow plugin to register
 before nemo initializes the driver
-```
- "firefox_profile": {
-            "module": "nemo-firefox-profile",
-            "priority": 99,
-             "register":true
- }
+
+```javascript
+"plugins" : {
+    "firefox_profile": {
+               "module": "nemo-firefox-profile",
+               "priority": 99,
+                "register":true
+    }
+  }
 ```
 
 ## Plugin Setup
-You can put your firefox preferences as `firefox_preferences` property under `nemoData` environment variable like below,
 
-```
-  "nemoData": {
-                "autoBaseDir": "<%=loopmocha.basedir%>", "targetBrowser": nconf.get("TARGET_BROWSER") || "firefox",
-                "firefox_preferences":{
-                    "browser.download.folderList": 2,
-                    "browser.download.dir": "/Users/nilesh",
-                    "browser.helperApps.neverAsk.saveToDisk": "text/csv"
-                },
-                "serverCaps": {
-                }
-  }
+You can put your firefox preferences as `firefoxPreferences` property under `driver` property in `config/config.json` like below,
+
+```javascript
+ "driver": {
+     "browser" : "firefox",
+     "firefoxPreferences":{
+       "browser.download.folderList": 2,
+       "browser.download.dir": "/Users/nilesh",
+       "browser.helperApps.neverAsk.saveToDisk": "text/csv"
+     }
+   }
 ```
 
-You can use an existing firefox profile just by passing the path to the folder containing your profile.
+You can also use an existing firefox profile just by passing the path to the folder containing your profile by setting `firefoxProfileDirectory` like below.
 
-```
-  "nemoData": {
-                "autoBaseDir": "<%=loopmocha.basedir%>", "targetBrowser": nconf.get("TARGET_BROWSER") || "firefox",
-                "firefoxDirectory": "/path/to/profile's folder",
-                "firefox_preferences":{
-                    "browser.download.folderList": 2,
-                    "browser.download.dir": "/Users/nilesh",
-                    "browser.helperApps.neverAsk.saveToDisk": "text/csv"
-                },
-                "serverCaps": {
-                }
-  }
+```javascript
+ "driver": {
+     "browser" : "firefox",
+     "firefoxProfileDirectory": "/path/to/profile's folder",
+     "firefoxPreferences":{
+       "browser.download.folderList": 2,
+       "browser.download.dir": "/Users/nilesh",
+       "browser.helperApps.neverAsk.saveToDisk": "text/csv"
+     }
+ }
 ```
 
 Once the plugin is configured correctly, nemo-firefox-profile would update "serverCaps" as below
 
-```
+```javascript
   "serverCaps": {
     "firefox_profile": {zipped, base64 encoded string of the profile directory for use with remote WebDriver JSON wire protocol}
   }
 ```
+
+## Example
+A sample nemo test `example/nemoFirefoxProfileExample.js` is written to demonstrate how to use `nemo-firefox-profile`. Custom firefox preferences are provided under `example/config/config.json`
+
+Once you clone the plugin, at the root level execute following,
+
+```bash
+npm install
+DEBUG=nemo* node example/nemoFirefoxProfileExample.js
+```
+
+You will see a bunch of nemo logs and a firefox launched with _blank_ window. In the address bar you can type `about:config` and check whether your custom firefox preferences were applied or not. Accept firefox risk page and in the address bar type `browser.download.dir`. You will see the value to be `/Users/nemoUser` and status to be `user set`. Browser will close automatically after 60s (timeout set that users could test firefox preferences).
 
 [1]:https://github.com/saadtazi/firefox-profile-js "firefox-profile-js"
 [2]:https://github.com/paypal/nemo "Nemo automation framework"
