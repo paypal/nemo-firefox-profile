@@ -1,10 +1,22 @@
 {
   "driver": {
     "browser" : "firefox",
-    "firefoxPreferences":{
+    "firefoxExtensions": [
+      "example/resources/modify_headers-0.7.1.1-fx.xpi"
+    ],
+    "firefoxPreferences": {
       "browser.download.folderList": 2,
       "browser.download.dir": "/Users/nemoUser",
-      "browser.helperApps.neverAsk.saveToDisk": "text/csv"
+      "browser.helperApps.neverAsk.saveToDisk": "text/csv",
+      "javascript.enabled": false,
+      "modifyheaders.config.active": true,
+      "modifyheaders.config.alwaysOn": true,
+      "modifyheaders.start": true,
+      "modifyheaders.headers.count": 1,
+      "modifyheaders.headers.action0": "Add",
+      "modifyheaders.headers.name0": "Custom-Header",
+      "modifyheaders.headers.value0": "Cookie",
+      "modifyheaders.headers.enabled0": true
     }
   },
   "plugins" : {
