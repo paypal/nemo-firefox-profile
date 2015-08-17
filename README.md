@@ -13,7 +13,8 @@ Firefox profile for [Nemo automation framework][2]. `nemo-firefox-profile` is a 
 
 Add nemo-firefox-profile to your config/nemo-plugins.json file. Make sure `priority<100` to allow plugin to register
 before nemo initializes the driver
-```
+
+```javascript
  "firefox_profile": {
             "module": "nemo-firefox-profile",
             "priority": 99,
@@ -24,7 +25,7 @@ before nemo initializes the driver
 ## Plugin Setup
 You can put your firefox preferences as `firefox_preferences` property under `nemoData` environment variable like below,
 
-```
+```javascript
   "nemoData": {
                 "autoBaseDir": "<%=loopmocha.basedir%>", "targetBrowser": nconf.get("TARGET_BROWSER") || "firefox",
                 "firefox_preferences":{
@@ -39,7 +40,7 @@ You can put your firefox preferences as `firefox_preferences` property under `ne
 
 You can use an existing firefox profile just by passing the path to the folder containing your profile.
 
-```
+```javascript
   "nemoData": {
                 "autoBaseDir": "<%=loopmocha.basedir%>", "targetBrowser": nconf.get("TARGET_BROWSER") || "firefox",
                 "firefoxDirectory": "/path/to/profile's folder",
@@ -66,7 +67,7 @@ You can also add extensions to your firefox profile by specifying them as an arr
 
 Once the plugin is configured correctly, nemo-firefox-profile would update "serverCaps" as below
 
-```
+```javascript
   "serverCaps": {
     "firefox_profile": {zipped, base64 encoded string of the profile directory for use with remote WebDriver JSON wire protocol}
   }
