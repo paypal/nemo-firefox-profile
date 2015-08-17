@@ -15,25 +15,56 @@
 
 /*jslint node: true */
 "use strict";
-var FirefoxProfile = require("firefox-profile");
+var FirefoxProfile = require("firefox-profile"),
+  async = require("async"),
+  debug = require("debug"),
+  log = debug("nemo-firefox-profile:log"),
+  error = debug("nemo-firefox-profile:error");
+
 module.exports = {
-    "setup": function (config, result, callback) {
-        var myProfile;
-        if (!result.props.firefoxDirectory) {
-            myProfile = new FirefoxProfile();
-        }
-        else {
-            myProfile = new FirefoxProfile(result.props.firefoxDirectory);
-        }
-        var firefox_preferences = result.props.firefox_preferences;
-        if (result.props.firefox_preferences) {
-            Object.keys(firefox_preferences).forEach(function (key) {
-                myProfile.setPreference(key, firefox_preferences[key]);
+  "setup": function (config, result, callback) {
+    var myProfile;
+    if (!result.props.firefoxDirectory) {
+      myProfile = new FirefoxProfile();
+    }
+    else {
+      log('Firefox profile Directory provided, ', result.props.firefoxDirectory);
+      myProfile = new FirefoxProfile(result.props.firefoxDirectory);
+    }
+    var firefox_preferences = result.props.firefox_preferences;
+    if (!result.props.serverCaps) {
+      result.props.serverCaps = {};
+    }
+    async.series(
+      [
+        function (callback) {
+          if (result.props.firefox_extensions) {
+            myProfile.addExtensions(result.props.firefox_extensions, function () {
+              log('Added extensions ', result.props.firefox_extensions);
+              callback(null, null);
             });
+          }
+        },
+        function (callback) {
+          if (result.props.firefox_preferences) {
+            log('Now adding preferences ', result.props.firefox_preferences);
+            Object.keys(firefox_preferences).forEach(function (key) {
+              myProfile.setPreference(key, firefox_preferences[key]);
+            });
+            callback(null, null);
+          }
+        }
+      ],
+      function (err, results) {
+        if (err) {
+          error('Error occurred when building firefox profile, ', err);
+          callback(err, config, result);
         }
         myProfile.encoded(function (encodedProfile) {
-            result.props.serverCaps.firefox_profile = JSON.stringify(encodedProfile);
-            callback(null, config, result);
+          result.props.serverCaps.firefox_profile = JSON.stringify(encodedProfile);
+          callback(null, config, result);
         });
-    }
+      }
+    );
+  }
 };
