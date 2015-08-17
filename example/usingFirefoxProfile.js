@@ -29,7 +29,7 @@ var config = {
   plugins: {
     "nemo-firefox-profile": {
       module : path.resolve('index.js'),
-      "register" : true,
+      register : true,
       priority : 99
     }
   }
