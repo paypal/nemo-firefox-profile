@@ -4,7 +4,10 @@
   "description": "Adds custom firefox preferences to nemo firefox driver instance",
   "main": "index.js",
   "dependencies": {
-    "firefox-profile": "^0.2.10"
+    "async": "^1.4.2",
+    "debug": "^2.2.0",
+    "firefox-profile": "^0.2.12",
+    "nemo": "^0.4.0"
   },
   "devDependencies": {
     "chai": "~1.6.0",
@@ -12,6 +15,9 @@
     "grunt-contrib-jshint": "~0.7.1",
     "grunt-simple-mocha": "~0.4.0",
     "mocha": "~1.10.0"
+  },
+  "peerDependencies": {
+    "nemo": "^0.4.0"
   },
   "author": "Nilesh Kulkarni",
   "keywords": [
