@@ -53,6 +53,17 @@ You can use an existing firefox profile just by passing the path to the folder c
   }
 ```
 
+You can also add extensions to your firefox profile by specifying them as an array in `firefox_extensions` under `nemoData`
+
+```javascript
+"nemoData": {
+    "firefox_extensions": [
+          "example/resources/modify_headers-0.7.1.1-fx.xpi",
+           "example/resources/firebug-2.0.0.xpi"
+    ]
+}
+```
+
 Once the plugin is configured correctly, nemo-firefox-profile would update "serverCaps" as below
 
 ```
@@ -60,6 +71,8 @@ Once the plugin is configured correctly, nemo-firefox-profile would update "serv
     "firefox_profile": {zipped, base64 encoded string of the profile directory for use with remote WebDriver JSON wire protocol}
   }
 ```
+## Example
+You can find an example of `nemo-firefox-plugin` with `nemo@0.4.0` under example directory. In the example we disable javascript and add a custom header using [modify-headers](https://addons.mozilla.org/en-Us/firefox/addon/modify-headers/) plugin
 
 [1]:https://github.com/saadtazi/firefox-profile-js "firefox-profile-js"
 [2]:https://github.com/paypal/nemo "Nemo automation framework"
