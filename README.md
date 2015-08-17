@@ -57,6 +57,17 @@ You can also use an existing firefox profile just by passing the path to the fol
  }
 ```
 
+You can also add extensions to your firefox profile by specifying them as an array in `firefoxExtensions` under `driver`
+
+```javascript
+"driver": {
+    "firefoxExtensions": [
+          "example/resources/modify_headers-0.7.1.1-fx.xpi",
+           "example/resources/firebug-2.0.0.xpi"
+    ]
+}
+```
+
 Once the plugin is configured correctly, nemo-firefox-profile would update "serverCaps" as below
 
 ```javascript
@@ -66,7 +77,7 @@ Once the plugin is configured correctly, nemo-firefox-profile would update "serv
 ```
 
 ## Example
-A sample nemo test `example/nemoFirefoxProfileExample.js` is written to demonstrate how to use `nemo-firefox-profile`. Custom firefox preferences are provided under `example/config/config.json`
+A sample nemo test `example/nemoFirefoxProfileExample.js` is written to demonstrate how to use `nemo-firefox-profile`. Custom firefox preferences are provided under `example/config/config.json`. We also add a custom header using [modify-headers](https://addons.mozilla.org/en-Us/firefox/addon/modify-headers/) extension
 
 Once you clone the plugin, at the root level execute following,
 
@@ -75,7 +86,7 @@ npm install
 DEBUG=nemo* node example/nemoFirefoxProfileExample.js
 ```
 
-You will see a bunch of nemo logs and a firefox launched with a _blank_ window. In the address bar you can type `about:config` and check whether your custom firefox preferences were applied or not. Accept firefox risk page and in the address bar type `browser.download.dir`. You will see the value to be `/Users/nemoUser` and status to be `user set`. That's it, you were able to configure `nemo-firefox-profile` correctly and able to successfully set custom firefox preferences. Browser will close automatically after 60s (timeout set that users could test firefox preferences).
+You will see a bunch of nemo logs and a firefox launched with a _blank_ window. In the address bar you can type `about:config` and check whether your custom firefox preferences were applied or not. Accept firefox risk page and in the address bar type `browser.download.dir`. You will see the value to be `/Users/nemoUser` and status to be `user set`. You can also see that [modify-headers](https://addons.mozilla.org/en-Us/firefox/addon/modify-headers/) is added to the browser with header `Custom-Header` being set to value `Cookie`. It could be found at the top right corner of the browser. That's it, you were able to configure `nemo-firefox-profile` correctly and able to successfully set custom firefox preferences. Browser will close automatically after 60s (timeout set so that users could test firefox preferences).
 
 ## Acknowledgement
 Thank you [@saadtazi](https://github.com/saadtazi) for your work on [firefox-profile-js][1]
