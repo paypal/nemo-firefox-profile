@@ -20,20 +20,19 @@ before nemo initializes  `selenium-webdriver`
 
 ```javascript
 "plugins" : {
-    "firefox_profile": {
-               "module": "nemo-firefox-profile",
-               "priority": 99,
-               "arguments": [
-                      {
-                         "firefoxPreferences": {
-                           "browser.download.folderList": 2,
-                           "browser.download.dir": "/Users/nemoUser",
-                           "browser.helperApps.neverAsk.saveToDisk": "text/csv"
-                         }
-                      }
-               ],
-               "register":true
-    }
+        "firefox_profile": {
+                   "module": "nemo-firefox-profile",
+                   "priority": 99,
+                   "arguments": [
+                          {
+                             "firefoxPreferences": {
+                               "browser.download.folderList": 2,
+                               "browser.download.dir": "/Users/nemoUser",
+                               "browser.helperApps.neverAsk.saveToDisk": "text/csv"
+                             }
+                          }
+                   ]
+        }
   }
 ```
 
