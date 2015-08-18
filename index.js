@@ -15,12 +15,18 @@
 
 /*jslint node: true */
 "use strict";
-var FirefoxProfile = require("firefox-profile");
+var FirefoxProfile = require('firefox-profile'),
+  async = require('async'),
+  debug = require('debug'),
+  log = debug('nemo-firefox-profile:log'),
+  error = debug('nemo-firefox-profile:error');
 module.exports = {
 
-  "setup": function (nemo, callback) {
-    var firefoxProfileDirectory = nemo._config.get('driver:firefoxProfileDirectory'),
-      firefoxPreferences = nemo._config.get('driver:firefoxPreferences') ;
+  "setup": function (ffProfileArgs, nemo, callback) {
+    log('Building firefox profile with arguments',ffProfileArgs);
+    var firefoxProfileDirectory = ffProfileArgs.firefoxProfileDirectory,
+      firefoxPreferences = ffProfileArgs.firefoxPreferences,
+      firefoxExtensions = ffProfileArgs.firefoxExtensions;
 
     if (!firefoxProfileDirectory && !firefoxPreferences) {
       throw new Error('You must provide firefoxDirectory or firefox preferences, please check README');
@@ -32,14 +38,37 @@ module.exports = {
     else {
       myProfile = new FirefoxProfile();
     }
-    if (firefoxPreferences) {
-      Object.keys(firefoxPreferences).forEach(function (key) {
-        myProfile.setPreference(key, firefoxPreferences[key]);
-      });
-    }
-    myProfile.encoded(function (encodedProfile) {
-      nemo._config.set('driver:serverCaps:firefox_profile', JSON.stringify(encodedProfile));
-      callback(null);
-    });
+
+    async.series(
+      [
+        function (callback) {
+          if (firefoxExtensions) {
+            myProfile.addExtensions(firefoxExtensions, function () {
+              log('Added extensions');
+              callback(null, null);
+            });
+          }
+        },
+        function (callback) {
+          if (firefoxPreferences) {
+            log('Now adding preferences');
+            Object.keys(firefoxPreferences).forEach(function (key) {
+              myProfile.setPreference(key, firefoxPreferences[key]);
+            });
+            callback(null, null);
+          }
+        }
+      ],
+      function (err, results) {
+        if (err) {
+          error(err);
+          callback(err);
+        }
+        myProfile.encoded(function (encodedProfile) {
+          nemo._config.set('driver:serverCaps:firefox_profile', JSON.stringify(encodedProfile));
+          callback(null);
+        });
+      }
+    );
   }
 };
