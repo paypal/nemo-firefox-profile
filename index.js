@@ -22,10 +22,11 @@ var FirefoxProfile = require('firefox-profile'),
   error = debug('nemo-firefox-profile:error');
 module.exports = {
 
-  "setup": function (nemo, callback) {
-    var firefoxProfileDirectory = nemo._config.get('driver:firefoxProfileDirectory'),
-      firefoxPreferences = nemo._config.get('driver:firefoxPreferences'),
-      firefoxExtensions = nemo._config.get('driver:firefoxExtensions');
+  "setup": function (ffProfileArgs, nemo, callback) {
+    log('Building firefox profile with arguments',ffProfileArgs);
+    var firefoxProfileDirectory = ffProfileArgs.firefoxProfileDirectory,
+      firefoxPreferences = ffProfileArgs.firefoxPreferences,
+      firefoxExtensions = ffProfileArgs.firefoxExtensions;
 
     if (!firefoxProfileDirectory && !firefoxPreferences) {
       throw new Error('You must provide firefoxDirectory or firefox preferences, please check README');
@@ -58,8 +59,9 @@ module.exports = {
           }
         }
       ],
-      function(err, results){
-        if(err){
+      function (err, results) {
+        if (err) {
+          error(err);
           callback(err);
         }
         myProfile.encoded(function (encodedProfile) {
