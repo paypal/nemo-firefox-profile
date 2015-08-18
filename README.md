@@ -23,50 +23,47 @@ before nemo initializes  `selenium-webdriver`
     "firefox_profile": {
                "module": "nemo-firefox-profile",
                "priority": 99,
-                "register":true
+               "arguments": [
+                      {
+                         "firefoxPreferences": {
+                           "browser.download.folderList": 2,
+                           "browser.download.dir": "/Users/nemoUser",
+                           "browser.helperApps.neverAsk.saveToDisk": "text/csv"
+                         }
+                      }
+               ],
+               "register":true
     }
   }
 ```
 
-## Plugin Setup
+## Plugin Arguments
 
-You can put your firefox preferences in nemo `config/config.json` as `firefoxPreferences` under `driver` property like below,
-
-```javascript
- "driver": {
-     "browser" : "firefox",
-     "firefoxPreferences":{
-       "browser.download.folderList": 2,
-       "browser.download.dir": "/Users/nilesh",
-       "browser.helperApps.neverAsk.saveToDisk": "text/csv"
-     }
-   }
-```
-
-You can also use an existing firefox profile just by passing the path to the folder containing your profile by setting `firefoxProfileDirectory` like below.
+You can pass firefox preferences to nemo via plugin arguments like below,
 
 ```javascript
- "driver": {
-     "browser" : "firefox",
-     "firefoxProfileDirectory": "/path/to/profile's folder",
-     "firefoxPreferences":{
-       "browser.download.folderList": 2,
-       "browser.download.dir": "/Users/nilesh",
-       "browser.helperApps.neverAsk.saveToDisk": "text/csv"
-     }
- }
+"plugins": {
+    "firefox-profile": {
+      "module": "nemo-firefox-profile",
+      "arguments": [
+        {
+          "firefoxPreferences": {
+            "browser.download.folderList": 2,
+            "browser.download.dir": "/Users/nemoUser",
+            "browser.helperApps.neverAsk.saveToDisk": "text/csv"
+          },
+          "firefoxProfileDirectory": "/path/to/profile's folder",
+          "firefoxExtensions": [
+                "example/resources/modify_headers-0.7.1.1-fx.xpi",
+                "example/resources/firebug-2.0.0.xpi"
+          ]
+        }
+      ],
+      "priority": 99
+    }
+  }
 ```
-
-You can also add extensions to your firefox profile by specifying them as an array in `firefoxExtensions` under `driver`
-
-```javascript
-"driver": {
-    "firefoxExtensions": [
-          "example/resources/modify_headers-0.7.1.1-fx.xpi",
-           "example/resources/firebug-2.0.0.xpi"
-    ]
-}
-```
+You _must_ pass either `firefoxPreferences` with custom preferences or `firefoxProfileDirectory` to load existing Firefox profile OR both. You can also include add-ons to firefox instance by providing them under `firefoxExtensions` as an array argument
 
 Once the plugin is configured correctly, nemo-firefox-profile would update "serverCaps" as below
 
