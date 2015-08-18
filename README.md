@@ -47,21 +47,21 @@ You can pass firefox preferences to nemo via plugin arguments like below,
       "module": "nemo-firefox-profile",
       "arguments": [
         {
-          "firefoxPreferences": {
-            "browser.download.folderList": 2,
-            "browser.download.dir": "/Users/nemoUser",
-            "browser.helperApps.neverAsk.saveToDisk": "text/csv"
-          },
-          "firefoxProfileDirectory": "/path/to/profile's folder",
-          "firefoxExtensions": [
+           "firefoxPreferences": {
+                "browser.download.folderList": 2,
+                "browser.download.dir": "/Users/nemoUser",
+                "browser.helperApps.neverAsk.saveToDisk": "text/csv"
+           },
+           "firefoxProfileDirectory": "/path/to/profile's folder",
+           "firefoxExtensions": [
                 "example/resources/modify_headers-0.7.1.1-fx.xpi",
                 "example/resources/firebug-2.0.0.xpi"
-          ]
+           ]
         }
       ],
       "priority": 99
     }
-  }
+ }
 ```
 You _must_ pass either `firefoxPreferences` with custom preferences or `firefoxProfileDirectory` to load existing Firefox profile OR both. You can also include add-ons to firefox instance by providing them under `firefoxExtensions` as an array argument
 
